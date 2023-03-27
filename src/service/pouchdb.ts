@@ -16,7 +16,7 @@ export const addData = async ( db: PouchDB.Database, data: Data ) => {
 export const syncData = async ( db: PouchDB.Database ) => {
   const remoteDB = new PouchDB('http://admin:1234@24.199.96.241:5984/dian');
   await db.sync(remoteDB, {
-    live: true,
+    live: false,
     retry: true,
   }).on('change', function (info) {
     console.log('sync complete');

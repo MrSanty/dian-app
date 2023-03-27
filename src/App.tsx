@@ -4,9 +4,11 @@ import { FormData } from "./components/FormData"
 import { syncData } from "./service/pouchdb";
 import './style/App.css'
 import { db } from "./service/pouchdb";
+import { AiOutlineCloudSync } from 'react-icons/ai';
 
 function App() {
-  const [ tab, setTab ] = useState('table');
+  const [ isOpen, setIsOpen ] = useState( false );
+  const [ recharge, setRecharge ] = useState(true);
 
   const handleSync = () => {
     syncData(db);
@@ -16,14 +18,14 @@ function App() {
     <>
       <div className="container">
         <div className="tabs">
-          <button onClick={() => setTab('table')} className={tab === 'table' ? 'active' : ''}>Ver registros</button>
-          <button onClick={() => setTab('form')} className={tab === 'form' ? 'active' : ''}>Registrar</button>
+          <button onClick={() => setIsOpen(true)}>Registrar</button>
         </div>
         <div className="sync">
-          <button onClick={handleSync}>Sincronizar</button>
+          <button onClick={handleSync}><AiOutlineCloudSync className="icon-sync"/></button>
         </div>
         <div className="body">
-          {tab === 'table' ? <TableData db={ db } /> : <FormData db={ db } />}
+          <TableData db={ db } setRecharge={ setRecharge } recharge={ recharge } />
+          { isOpen &&  <FormData db={ db } setIsOpen={ setIsOpen } setRecharge={ setRecharge } /> }
         </div>
       </div>
     </>
